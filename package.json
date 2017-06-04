@@ -1,0 +1,25 @@
+{
+  "name": "spring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanishi109/spring.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tanishi109/spring/issues"
+  },
+  "homepage": "https://github.com/tanishi109/spring#readme",
+  "dependencies": {
+    "next": "^2.4.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  }
+}
