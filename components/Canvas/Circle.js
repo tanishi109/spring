@@ -1,6 +1,6 @@
 import Vars from "./Vars";
 
-class Circle {
+export default class Circle {
   constructor(x, y, r, chainTo) {
     this.x = x;
     this.y = y;

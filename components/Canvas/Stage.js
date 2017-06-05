@@ -1,14 +1,13 @@
 import Vars from "./Vars";
 
-class Stage {
+export default class Stage {
   constructor(contents) {
-    Vars.ctx = getContext("2d");
     this.contents = contents;
 
-    this.init();
+    this.fit();
   }
 
-  init() {
+  fit() {
     this.width = Vars.width;
     this.height = Vars.height;
     Vars.canvas.setAttribute("width", this.width);
@@ -23,6 +22,6 @@ class Stage {
     this.contents.forEach((cnt) => {
       cnt.render(Vars.ctx);
     });
-    requestAnimationFrame(::this.render);
+    requestAnimationFrame(this.render.bind(this));
   }
 }
