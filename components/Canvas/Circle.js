@@ -14,7 +14,7 @@ export default class Circle {
 
     this.vy = 0;
     this.targetY = 300;
-    this.gravity = 60;
+    this.gravity = 0;
 
     this.chainTo = chainTo;
   }
@@ -42,7 +42,7 @@ export default class Circle {
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
     ctx.lineTo(this.getTargetX(), this.getTargetY());
-    ctx.lineWidth = 30;
+    ctx.lineWidth = 5;
     ctx.strokeStyle = "rgba(155, 187, 89, 0.8)";
     ctx.stroke();
 

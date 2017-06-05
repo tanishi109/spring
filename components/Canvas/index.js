@@ -21,10 +21,10 @@ export default class extends React.Component {
     Vars.width = width;
     Vars.height = height;
 
-    const circle = new Circle(150, 150, 40);
-    const circle2 = new Circle(150, 150, 40, circle);
-    const circle3 = new Circle(150, 150, 40, circle2);
-    const stage = new Stage([circle, circle2, circle3]);
+    const circle = new Circle(150, 150, 10);
+    const circle2 = new Circle(150, 150, 10, circle);
+    const circle3 = new Circle(150, 150, 10, circle2);
+    const stage = new Stage([circle]);
 
     Vars.circle = circle;
     Vars.stage = stage;
@@ -52,8 +52,10 @@ export default class extends React.Component {
             margin: 25px;
           }
           canvas {
-            width: 100vw;
+            width: calc(100vw - 25px - 25px);
             height: 100vh;
+            border: 1px solid #000;
+            border-radius: 2px;
           }
         `}</style>
         <style jsx global>{`
