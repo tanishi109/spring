@@ -1,3 +1,5 @@
+import Vars from "./Vars";
+
 class Circle {
   constructor(x, y, r, chainTo) {
     this.x = x;
