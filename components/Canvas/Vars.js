@@ -1,7 +1,15 @@
 class Vars {
   constructor() {
-    this.stage;
+    this.canvas;
+    this.ctx;
+    this.width;
+    this.height;
     this.circle;
+    this.stage;
+    this.cursor = {
+      x: 0,
+      y: 0,
+    };
   }
 }
 

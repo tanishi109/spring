@@ -21,9 +21,9 @@ export default class extends React.Component {
     Vars.width = width;
     Vars.height = height;
 
-    const circle = new Circle(150, 150, 10);
-    const circle2 = new Circle(150, 150, 10, circle);
-    const circle3 = new Circle(150, 150, 10, circle2);
+    const circle = new Circle(150, 150, 10, [Vars.cursor]);
+    // const circle2 = new Circle(150, 150, 10, circle);
+    // const circle3 = new Circle(150, 150, 10, circle2);
     const stage = new Stage([circle]);
 
     Vars.circle = circle;
@@ -36,8 +36,8 @@ export default class extends React.Component {
     });
 
     window.addEventListener("mousemove", (e) => {
-      Vars.circle.targetX = e.offsetX;
-      Vars.circle.targetY = e.offsetY;
+      Vars.cursor.x = e.offsetX;
+      Vars.cursor.y = e.offsetY;
     });
   }
 
