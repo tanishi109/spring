@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 
 import Stage from "./Stage";
 import Circle from "./Circle";
@@ -8,6 +9,7 @@ export default class extends React.Component {
   componentDidMount() {
     this.initVars();
     this.initHanlder();
+    this.initDatGUI(Vars.stage);
   }
 
   initVars() {
@@ -21,10 +23,13 @@ export default class extends React.Component {
     Vars.width = width;
     Vars.height = height;
 
-    const circle = new Circle(150, 150, 10, [Vars.cursor]);
-    // const circle2 = new Circle(150, 150, 10, circle);
+    const circle = new Circle(150, 150, 10, []);
+    const circle2 = new Circle(150, 150, 10, [circle]);
     // const circle3 = new Circle(150, 150, 10, circle2);
-    const stage = new Stage([circle]);
+
+    circle.chainTo.push(circle2);
+
+    const stage = new Stage([circle, circle2]);
 
     Vars.circle = circle;
     Vars.stage = stage;
@@ -41,9 +46,18 @@ export default class extends React.Component {
     });
   }
 
+  initDatGUI(stage) {
+    const gui = new dat.GUI();
+
+    stage.contents.forEach((c) => {
+      gui.add(c, "distance", 10, 150);
+    });
+  }
+
   render() {
     return (
       <div id="wrapper" className="wrapper">
+        {this.head()}
         <canvas id="stage" className="stage" />
         <style jsx>{`
           div {
@@ -66,6 +80,14 @@ export default class extends React.Component {
           }
         `}</style>
       </div>
+    );
+  }
+
+  head() {
+    return (
+      <Head>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
+      </Head>
     );
   }
 }
