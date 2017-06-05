@@ -18,6 +18,7 @@ export default class Stage {
 
   render() {
     Vars.ctx.clearRect(0, 0, this.width, this.height);
+    Vars.calcHistory = [];
 
     this.contents.forEach((cnt) => {
       cnt.render(Vars.ctx);
