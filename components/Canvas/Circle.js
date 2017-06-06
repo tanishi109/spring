@@ -29,9 +29,7 @@ export default class Circle {
     ctx.beginPath();
 
     this.chainTo.forEach((chain) => {
-      const dx = chain.x - this.x;
-      const dy = chain.y - this.y;
-      const [ax, ay] = this.getTarget(chain, dx, dy);
+      const [ax, ay] = this.getAccel(chain);
 
       this.vx += ax;
       this.vx *= this.friction;
@@ -63,10 +61,18 @@ export default class Circle {
     ctx.fill();
   }
 
-  getTarget(chain, dx, dy) {
+  getTarget(chain) {
+    const dx = chain.x - this.x;
+    const dy = chain.y - this.y;
     const angle = Math.atan2(dy, dx);
     const targetX = chain.x - Math.cos(angle) * this.distance;
     const targetY = chain.y - Math.sin(angle) * this.distance;
+
+    return [targetX, targetY];
+  }
+
+  getAccel(chain) {
+    const [targetX, targetY] = this.getTarget(chain);
     const ax = (targetX - this.x) * this.spring;
     const ay = (targetY - this.y) * this.spring;
 
