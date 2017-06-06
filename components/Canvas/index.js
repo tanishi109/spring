@@ -23,15 +23,16 @@ export default class extends React.Component {
     Vars.width = width;
     Vars.height = height;
 
-    const circle = new Circle(150, 150, 10, []);
-    const circle2 = new Circle(150, 150, 10, [circle]);
-    // const circle3 = new Circle(150, 150, 10, circle2);
+    const c1 = new Circle(50, 50, 10);  const c4 = new Circle(100, 50, 10);
+    const c2 = new Circle(50, 100, 10); const c3 = new Circle(100, 100, 10);
 
-    circle.chainTo.push(circle2);
+    c1.chainTo = [c2, c4];
+    c2.chainTo = [c1, c3];
+    c3.chainTo = [c2, c4];
+    c4.chainTo = [c1, c3];
 
-    const stage = new Stage([circle, circle2]);
+    const stage = new Stage([c1, c2, c3, c4]);
 
-    Vars.circle = circle;
     Vars.stage = stage;
   }
 
@@ -50,7 +51,7 @@ export default class extends React.Component {
     const gui = new dat.GUI();
 
     stage.contents.forEach((c) => {
-      gui.add(c, "distance", 10, 150);
+      // gui.add(c, "distance", 10, 150);
     });
   }
 
@@ -67,7 +68,7 @@ export default class extends React.Component {
           }
           canvas {
             width: calc(100vw - 25px - 25px);
-            height: 100vh;
+            height: calc(100vh - 25px - 25px);
             border: 1px solid #000;
             border-radius: 2px;
           }

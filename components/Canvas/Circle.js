@@ -15,11 +15,11 @@ export default class Circle {
     this.r = r;
 
     this.spring = 0.1;
-    this.friction = 0.85;
+    this.friction = 0.8;
 
-    this.vx = 50;
+    this.vx = 0;
     this.vy = 0;
-    this.gravity = 0;
+    this.gravity = 1;
 
     this.chainTo = chainTo;
     this.distance = 120;
@@ -29,11 +29,6 @@ export default class Circle {
     ctx.beginPath();
 
     this.chainTo.forEach((chain) => {
-      const currentSet = new Set([this.id, chain.id]);
-      if (this.isCalculated(currentSet)) {
-        return;
-      }
-
       const dx = chain.x - this.x;
       const dy = chain.y - this.y;
       const [ax, ay] = this.getTarget(chain, dx, dy);
@@ -42,24 +37,30 @@ export default class Circle {
       this.vx *= this.friction;
       this.x += this.vx;
 
-      this.y += this.gravity;
+      this.vy += this.gravity;
       this.vy += ay;
       this.vy *= this.friction;
       this.y += this.vy;
 
-      Vars.calcHistory.push(currentSet)
+      const currentSet = new Set([this.id, chain.id]);
+
+      if (!this.isCalculated(currentSet)) {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(chain.x, chain.y);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "rgba(155, 187, 89, 0.8)";
+        ctx.stroke();
+      }
+
+      Vars.calcHistory.push(currentSet);
     });
+
+    this.checkFloor();
 
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
     ctx.fillStyle = "rgba(155, 187, 89, 0.8)";
     ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    // ctx.lineTo(this.getTargetX(), this.getTargetY());
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = "rgba(155, 187, 89, 0.8)";
-    ctx.stroke();
   }
 
   getTarget(chain, dx, dy) {
@@ -72,9 +73,17 @@ export default class Circle {
     return [ax, ay];
   }
 
+  checkFloor() {
+    const yMax = this.y + this.r;
+    if (yMax > Vars.height) {
+      const dy = yMax - Vars.height;
+      this.y -= dy;
+    }
+  }
+
   isCalculated(currentSet) {
     return Vars.calcHistory.some((set) => {
-      return [...currentSet].filter(id => !set.has(id));
+      return [...currentSet].filter(id => !set.has(id)).length === 0;
     });
   }
 }

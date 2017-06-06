@@ -4,7 +4,6 @@ class Vars {
     this.ctx;
     this.width;
     this.height;
-    this.circle;
     this.stage;
     this.cursor = {
       x: 0,
