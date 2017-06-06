@@ -1,4 +1,9 @@
 import Vars from "./Vars";
+import {throttle} from "lodash";
+
+const intervalLog = throttle((args) => {
+  console.log(args);
+}, 500);
 
 const getId = (() => {
   let id = 0;
