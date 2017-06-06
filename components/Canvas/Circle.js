@@ -103,12 +103,14 @@ export default class Circle {
     const [ax, ay] = this.getHingeAccel(chain);
 
     chain.vx += ax;
-    chain.vx *= chain.friction - 0.1;
+    chain.vx *= chain.friction - 0.05;
     chain.x += chain.vx;
+    this.x -= chain.vx;
 
     chain.vy += ay;
-    chain.vy *= chain.friction - 0.1;
+    chain.vy *= chain.friction - 0.05;
     chain.y += chain.vy;
+    this.y -= chain.vy;
   }
 
   getRotated(chain) {
