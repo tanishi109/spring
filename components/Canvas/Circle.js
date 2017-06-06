@@ -59,6 +59,8 @@ export default class Circle {
       Vars.calcHistory.push(currentSet);
     });
 
+    this.doHinge();
+
     this.checkFloor();
 
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
@@ -90,6 +92,34 @@ export default class Circle {
       const dy = yMax - Vars.height;
       this.y -= dy;
     }
+  }
+
+  doHinge() {
+    const angle = this.getAngle();
+
+  }
+
+  getAngle() {
+    const p1 = this.chainTo[0];
+    const p2 = this.chainTo[1];
+    const v1 = [
+      p1.x - this.x,
+      p1.y - this.y,
+    ];
+    const v2 = [
+      p2.x - this.x,
+      p2.y - this.y,
+    ];
+
+    const v1v2 = v1[0] * v2[0] + v1[1] * v2[1];
+    const v1length = Math.sqrt(v1[0] ** 2 + v1[1] ** 2);
+    const v2length = Math.sqrt(v2[0] ** 2 + v2[1] ** 2);
+
+    const cosineTheta = v1v2 / (v1length * v2length);
+    const radian = Math.acos(cosineTheta);
+    const angle = radian * 180 / Math.PI;
+
+    return angle;
   }
 
   isCalculated(currentSet) {
