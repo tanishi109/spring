@@ -31,6 +31,11 @@ export default class extends React.Component {
     c3.chainTo = [c2, c4];
     c4.chainTo = [c1, c3];
 
+    c1.angle = 90;
+    c2.angle = 90;
+    c3.angle = 90;
+    c4.angle = 90;
+
     const stage = new Stage([c1, c2, c3, c4]);
 
     Vars.stage = stage;
@@ -51,7 +56,7 @@ export default class extends React.Component {
     const gui = new dat.GUI();
 
     stage.contents.forEach((c) => {
-      // gui.add(c, "distance", 10, 150);
+      gui.add(c, "r", 1, 10);
     });
   }
 

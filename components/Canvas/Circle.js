@@ -28,6 +28,8 @@ export default class Circle {
 
     this.chainTo = chainTo;
     this.distance = 120;
+
+    this.angle;
   }
 
   render(ctx) {
@@ -45,23 +47,26 @@ export default class Circle {
       this.vy *= this.friction;
       this.y += this.vy;
 
+      if (this.angle !== undefined) {
+        this.doHinge(chain);
+      }
+
       const currentSet = new Set([this.id, chain.id]);
 
       if (!this.isCalculated(currentSet)) {
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(chain.x, chain.y);
-        ctx.lineWidth = 5;
+        ctx.lineWidth = 2;
         ctx.strokeStyle = "rgba(155, 187, 89, 0.8)";
         ctx.stroke();
+        ctx.closePath();
       }
 
       Vars.calcHistory.push(currentSet);
     });
 
-    this.doHinge();
-
-    this.checkFloor();
+    this.checkFloor(this);
 
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
     ctx.fillStyle = "rgba(155, 187, 89, 0.8)";
@@ -86,20 +91,56 @@ export default class Circle {
     return [ax, ay];
   }
 
-  checkFloor() {
-    const yMax = this.y + this.r;
-    if (yMax > Vars.height) {
-      const dy = yMax - Vars.height;
-      this.y -= dy;
+  checkFloor(circle) {
+    const bottom = circle.y + circle.r;
+    if (bottom > Vars.height) {
+      const dy = bottom - Vars.height;
+      circle.y -= dy;
     }
   }
 
-  doHinge() {
-    const angle = this.getAngle();
+  doHinge(chain) {
+    const [ax, ay] = this.getHingeAccel(chain);
 
+    chain.vx += ax;
+    chain.vx *= chain.friction - 0.1;
+    chain.x += chain.vx;
+
+    chain.vy += ay;
+    chain.vy *= chain.friction - 0.1;
+    chain.y += chain.vy;
   }
 
-  getAngle() {
+  getRotated(chain) {
+    const hingeAngle = this.getHingeAngle();
+    const da = this.angle - hingeAngle;
+    const dx = chain.x - this.x;
+    const dy = chain.y - this.y;
+    const dr = this.toRadian(da);
+
+    const rotatedX = Math.cos(dr) * dx - Math.sin(dr) * dy;
+    const rotatedY = Math.cos(dr) * dy + Math.sin(dr) * dx;
+
+    return [rotatedX + this.x, rotatedY + this.y];
+  }
+
+  getHingeAccel(chain) {
+    const [rx, ry] = this.getRotated(chain);
+    const ax = (rx - chain.x) * chain.spring;
+    const ay = (ry - chain.y) * chain.spring;
+
+    return [ax, ay];
+  }
+
+  toRadian(degree) {
+    return degree * (Math.PI / 180);
+  }
+
+  toDegree(radian) {
+    return radian * 180 / Math.PI;    
+  }
+
+  getHingeAngle() {
     const p1 = this.chainTo[0];
     const p2 = this.chainTo[1];
     const v1 = [
@@ -117,7 +158,7 @@ export default class Circle {
 
     const cosineTheta = v1v2 / (v1length * v2length);
     const radian = Math.acos(cosineTheta);
-    const angle = radian * 180 / Math.PI;
+    const angle = this.toDegree(radian);
 
     return angle;
   }
