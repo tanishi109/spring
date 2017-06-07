@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next"
+    "dev": "next",
+    "build": "next build && next export"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,12 @@
   },
   "homepage": "https://github.com/tanishi109/spring#readme",
   "dependencies": {
+    "gh-pages": "^1.0.0",
     "lodash": "^4.17.4",
-    "next": "^2.4.1",
+    "next": "^3.0.0-beta11",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "styled-jsx": "^1.0.4",
+    "webpack": "^3.0.0-rc.1"
   }
 }
