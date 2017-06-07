@@ -1,5 +1,7 @@
 import Canvas from "../components/Canvas"
 
 export default () => (
-  <Canvas />
+  <div>
+    <Canvas />
+  </div>
 )
