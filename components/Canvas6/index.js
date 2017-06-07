@@ -26,7 +26,7 @@ export default class extends React.Component {
     const c1 = new Circle(60, 60, 10);  const c4 = new Circle(120, 60, 10);
     const c2 = new Circle(60, 120, 10); const c3 = new Circle(120, 120, 10);
 
-    c1.chainTo = [c2, c4, Vars.cursor];
+    c1.chainTo = [c2, c4];
     c2.chainTo = [c1, c3];
     c3.chainTo = [c2, c4];
     c4.chainTo = [c1, c3];
